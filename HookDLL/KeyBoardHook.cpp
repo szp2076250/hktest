@@ -147,7 +147,7 @@ void HookOn(HANDLE hProcess)
 	if (0 == dwRet || 0 == dwWrite) { /*TRACE("NewCodeW 写入失败");*/ }
 	VirtualProtectEx(hProcess, pfMsgBoxW, 5, dwOldProtect, &dwTemp);
 
-	MessageBoxA(NULL, "TEST", "TEST", MB_OK);
+	//MessageBoxA(NULL, "TEST", "TEST", MB_OK);
 }
 
 // 关闭钩子（修改 API 头 5 个字节）
@@ -303,9 +303,11 @@ void Inject(HANDLE hProcess)
 void Init() {
 	//DWORD dwPid = ::GetCurrentProcessId();
 	// 获取调用 dll 的进程句柄
-	//InjectAllProcess();
-	Inject(hProcess);
-
+	InjectAllProcess();
+	//DWORD dwPid = ::GetCurrentProcessId();
+	//// 获取调用 dll 的进程句柄
+	//hProcess = ::OpenProcess(PROCESS_ALL_ACCESS, 0, dwPid);
+	//Inject(hProcess);
 }
 
 void ChangeTable(HMODULE module) {
