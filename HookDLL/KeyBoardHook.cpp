@@ -6,8 +6,16 @@
 #include "KeyBoardHook.h"
 #include "dbghelp.h"
 #include "tlhelp32.h"
-
 #pragma comment(lib,"Dbghelp.lib")
+
+// 全局共享变量（多进程之间共享数据）
+#pragma data_seg(".Share")
+HWND g_hWnd = NULL;				// 主窗口句柄
+HHOOK hhk = NULL;				// 鼠标钩子句柄
+HINSTANCE hInst = NULL;			// 本dll实例句柄
+#pragma data_seg()
+#pragma comment(linker, "/section:.Share,rws")
+
 
 HHOOK gHook = 0;
 extern HANDLE hProcess;				// 进程句柄
@@ -22,33 +30,6 @@ LRESULT CALLBACK KeyboardProc(
 	
 	return CallNextHookEx(gHook, code, wParam, lParam);
 }
-
-bool OnHook()
-{
-	//if (gHook == 0)
-	//{
-	//	gHook = SetWindowsHookEx(WH_MOUSE, KeyboardProc, hProcess, 0);
-	//	return true;
-	//}
-	return false;
-}
-
-bool UnHook()
-{
-	if (gHook != 0)
-	{
-		return UnhookWindowsHookEx(gHook);
-	}
-	return false;
-}
-
-// 全局共享变量（多进程之间共享数据）
-#pragma data_seg(".Share")
-HWND g_hWnd = NULL;				// 主窗口句柄
-HHOOK hhk = NULL;				// 鼠标钩子句柄
-HINSTANCE hInst = NULL;			// 本dll实例句柄
-#pragma data_seg()
-#pragma comment(linker, "/section:.Share,rws")
 
 
 
@@ -147,7 +128,7 @@ void HookOn(HANDLE hProcess)
 	if (0 == dwRet || 0 == dwWrite) { /*TRACE("NewCodeW 写入失败");*/ }
 	VirtualProtectEx(hProcess, pfMsgBoxW, 5, dwOldProtect, &dwTemp);
 
-	//MessageBoxA(NULL, "TEST", "TEST", MB_OK);
+	MessageBoxA(NULL, "TEST", "TEST", MB_OK);
 }
 
 // 关闭钩子（修改 API 头 5 个字节）
@@ -214,8 +195,8 @@ BOOL InjectAllProcess()
 
 		
 		HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS, 0, dwPID);
-		Inject(hProcess);
-	/*	auto pfnAddress = (PTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle(L"Kernel32"),"LoadLibraryA");
+		//Inject(hProcess);
+		auto pfnAddress = (PTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle(L"Kernel32"),"LoadLibraryA");
 		const char * path = "../Debug/InjectDLL.dll";
 		auto baseAddress = VirtualAllocEx(hProcess, 0,strlen(path)+1, MEM_COMMIT|MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 		WriteProcessMemory(hProcess, baseAddress, path, strlen(path) + 1, NULL);
@@ -223,7 +204,7 @@ BOOL InjectAllProcess()
 		VirtualFreeEx(hProcess, baseAddress, strlen(path) + 1, MEM_RELEASE);
 
 		CloseHandle(hRemote);
-		CloseHandle(hProcess);*/
+		CloseHandle(hProcess);
 	} while (Process32Next(hSnapShot, &pe));
 
 	CloseHandle(hSnapShot);
@@ -301,8 +282,7 @@ void Inject(HANDLE hProcess)
 }
 
 void Init() {
-	//DWORD dwPid = ::GetCurrentProcessId();
-	// 获取调用 dll 的进程句柄
+	//// 获取调用 dll 的进程句柄
 	InjectAllProcess();
 	//DWORD dwPid = ::GetCurrentProcessId();
 	//// 获取调用 dll 的进程句柄
@@ -336,4 +316,24 @@ void ChangeTable(HMODULE module) {
 			}
 			pImport++;
 		}
+}
+
+
+bool OnHook()
+{
+	//if (gHook == 0)
+	//{
+	//	gHook = SetWindowsHookEx(WH_MOUSE, KeyboardProc, hProcess, 0);
+	//	return true;
+	//}
+	return false;
+}
+
+bool UnHook()
+{
+	if (gHook != 0)
+	{
+		return UnhookWindowsHookEx(gHook);
+	}
+	return false;
 }

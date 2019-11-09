@@ -23,7 +23,7 @@
     <ProjectGuid>{90F49799-4D07-4C58-8ADF-4C512B6FB9E3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>InjectDLL</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
