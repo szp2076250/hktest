@@ -1,0 +1,5 @@
+﻿  pch.cpp
+  ConsoleApplication.cpp
+ConsoleApplication.obj : error LNK2001: 无法解析的外部符号 OnHook
+ConsoleApplication.obj : error LNK2001: 无法解析的外部符号 UnHook
+E:\client\x64\Release\ConsoleApplication.exe : fatal error LNK1120: 2 个无法解析的外部命令

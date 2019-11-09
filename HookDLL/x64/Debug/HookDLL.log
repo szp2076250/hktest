@@ -1,0 +1,9 @@
+﻿  stdafx.cpp
+  dllmain.cpp
+  HookDLL.cpp
+  KeyBoardHook.h
+  KeyBoardHook.cpp
+e:\client\hookdll\keyboardhook.cpp(28): warning C4244: “初始化”: 从“LPARAM”转换到“LONG”，可能丢失数据
+  正在生成代码...
+x64\Debug\KeyBoardHook.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
+  HookDLL.vcxproj -> E:\client\x64\Debug\WindowHookDLL.dll

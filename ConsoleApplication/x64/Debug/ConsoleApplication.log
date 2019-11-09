@@ -1,0 +1,6 @@
+﻿  pch.cpp
+  ConsoleApplication.cpp
+ConsoleApplication.obj : error LNK2019: 无法解析的外部符号 OnHook，该符号在函数 main 中被引用
+ConsoleApplication.obj : error LNK2019: 无法解析的外部符号 UnHook，该符号在函数 main 中被引用
+..\Release\WindowHookDLL.lib : warning LNK4272: 库计算机类型“x86”与目标计算机类型“x64”冲突
+E:\client\x64\Debug\ConsoleApplication.exe : fatal error LNK1120: 2 个无法解析的外部命令
