@@ -1,2 +1,5 @@
-﻿  dllmain.cpp
-  InjectDLL.vcxproj -> E:\client\Debug\InjectDLL.dll
+﻿  stdafx.cpp
+  dllmain.cpp
+  InjectDLL.cpp
+  正在生成代码...
+  InjectDLL.vcxproj -> E:\project\Debug\InjectDLL.dll

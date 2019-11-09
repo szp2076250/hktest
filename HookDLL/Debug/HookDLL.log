@@ -1,2 +1,4 @@
 ﻿  KeyBoardHook.cpp
-  HookDLL.vcxproj -> E:\client\Debug\WindowHookDLL.dll
+Debug\KeyBoardHook.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
+    正在创建库 E:\project\Debug\WindowHookDLL.lib 和对象 E:\project\Debug\WindowHookDLL.exp
+  HookDLL.vcxproj -> E:\project\Debug\WindowHookDLL.dll

