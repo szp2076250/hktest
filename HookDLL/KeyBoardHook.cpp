@@ -108,7 +108,7 @@ void HookOn(HANDLE hProcess)
 	);
 
 	// 判断是否成功写入内存
-	dwRet = WriteProcessMemory(
+	dwRet = WriteProcessMemory( 
 		hProcess,			// 进程句柄
 		pfMsgBoxA,			// 指向写入地址的指针
 		NewCodeA,			// 指向存放写入内容的缓冲区指针
@@ -193,7 +193,6 @@ BOOL InjectAllProcess()
 		//鉴于系统安全性考虑，对于PID小于100的系统进程，不执行DLL诸如操作
 		if (dwPID < 100)
 			continue;
-
 		
 		HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS, 0, dwPID);
 		//Inject(hProcess);
