@@ -97,7 +97,7 @@ int WINAPI MyMessageBoxW(HWND hWnd, LPCWSTR lpText, LPCWSTR lpCaption, UINT uTyp
 
 	// 检验 MessageBoxW 是否失败（失败返回 0）
 	nRet = ::MessageBoxW(hWnd, L"Hook MessageBoxW", lpCaption, uType);
-	//nRet=::MessageBoxW(hWnd,lpText,lpCaption,uType);	// 调用原函数（如果你想暗箱操作的话）
+	nRet=::MessageBoxW(hWnd,lpText,lpCaption,uType);	// 调用原函数（如果你想暗箱操作的话）
 
 	// 再次 HookOn，否则只生效一次
 	HookOn(hProcess);
@@ -136,6 +136,7 @@ void HookOn(HANDLE hProcess)
 	);
 	if (0 == dwRet || 0 == dwWrite) {
 		//TRACE("NewCodeA 写入失败");	// 记录日志信息
+		return;
 	}
 
 	// 恢复内存保护状态
