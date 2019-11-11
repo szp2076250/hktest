@@ -1,9 +1,0 @@
-﻿  stdafx.cpp
-  APIHook.cpp
-  dllmain.cpp
-  HookDLL.cpp
-  KeyBoardHook.h
-  KeyBoardHook.cpp
-  正在生成代码...
-Debug\KeyBoardHook.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
-  HookDLL.vcxproj -> E:\project\Debug\WindowHookDLL.dll
