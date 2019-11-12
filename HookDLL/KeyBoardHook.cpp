@@ -197,7 +197,7 @@ BOOL InjectAllProcess()
 		HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS, 0, dwPID);
 		//Inject(hProcess);
 		auto pfnAddress = (PTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle(L"Kernel32"),"LoadLibraryA");
-		const char * path = "../Debug/InjectDLL.dll";
+		const char * path = "../Debug/InjectDLLResume.dll";
 		auto baseAddress = VirtualAllocEx(hProcess, 0,strlen(path)+1, MEM_COMMIT|MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 		WriteProcessMemory(hProcess, baseAddress, path, strlen(path) + 1, NULL);
 		auto hRemote = CreateRemoteThread(hProcess,NULL,0, pfnAddress, baseAddress,0,NULL);
