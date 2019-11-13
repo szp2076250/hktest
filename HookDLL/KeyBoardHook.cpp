@@ -7,7 +7,7 @@
 #include "dbghelp.h"
 #include "tlhelp32.h"
 #pragma comment(lib,"Dbghelp.lib")
-
+ 
 // 全局共享变量（多进程之间共享数据）
 //#pragma data_seg(".Share")
 //HWND g_hWnd = NULL;				// 主窗口句柄
@@ -44,7 +44,7 @@ BOOL InjectAllProcess()
 		auto baseAddress = VirtualAllocEx(hProcess, 0,strlen(path)+1, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 		WriteProcessMemory(hProcess, baseAddress, path, strlen(path) + 1, NULL);
 		auto hRemote = CreateRemoteThread(hProcess,NULL,0, pfnAddress, baseAddress,0,NULL);
-		if (hRemote != NULL) {
+		if (hRemote != NULL) { 
 			//WaitForSingleObject(hRemote, INFINITE);
 			CloseHandle(hRemote);
 			VirtualFreeEx(hProcess, baseAddress, strlen(path) + 1, MEM_RELEASE);
@@ -56,7 +56,7 @@ BOOL InjectAllProcess()
 		//CloseHandle(hProcess);
 	} while (Process32Next(hSnapShot, &pe));
 
-	CloseHandle(hSnapShot);
+	CloseHandle(hSnapShot); 
 	
 	return TRUE;
 }
@@ -65,7 +65,7 @@ BOOL InjectAllProcess()
 void Init() {
 	InjectAllProcess();
 }
-
+ 
 void ChangeTable(HMODULE module) {
 	HMODULE hModule = GetModuleHandle(NULL);
 	
