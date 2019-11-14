@@ -1,8 +1,6 @@
 *.db
 *.ipch
 *.*.*.tlog
-*.vcproj
-*.vcxproj
 *.vcxproj.*
 unsuccessfulbuild
 *.lastbuildstate
