@@ -138,3 +138,43 @@ typedef NTSTATUS(WINAPI *NTQUERYSYSTEMINFORMATION)(
 	OUT PVOID               SystemInformation,
 	IN ULONG                SystemInformationLength,
 	OUT PULONG              ReturnLength OPTIONAL);
+
+//=================================NtCreateFile
+//typedef struct _UNICODE_STRING {
+//	USHORT Length;
+//	USHORT MaximumLength;
+//	PWSTR  Buffer;
+//} UNICODE_STRING, *PUNICODE_STRING;
+
+typedef UNICODE_STRING * PUNICODE_STRING;
+
+typedef struct _OBJECT_ATTRIBUTES {
+	ULONG           Length;
+	HANDLE          RootDirectory;
+	PUNICODE_STRING ObjectName;
+	ULONG           Attributes;
+	PVOID           SecurityDescriptor;
+	PVOID           SecurityQualityOfService;
+}  OBJECT_ATTRIBUTES, *POBJECT_ATTRIBUTES;
+
+typedef struct _IO_STATUS_BLOCK {
+	union {
+		NTSTATUS Status;
+		PVOID    Pointer;
+	};
+	ULONG_PTR Information;
+} IO_STATUS_BLOCK, *PIO_STATUS_BLOCK;
+
+typedef NTSTATUS (WINAPI* NTCREATEFILE)(
+	OUT PHANDLE           FileHandle,
+	IN ACCESS_MASK        DesiredAccess,
+	IN POBJECT_ATTRIBUTES ObjectAttributes,
+	OUT PIO_STATUS_BLOCK  IoStatusBlock,
+	IN PLARGE_INTEGER     AllocationSize,
+	IN ULONG              FileAttributes,
+	IN ULONG              ShareAccess,
+	IN ULONG              CreateDisposition,
+	IN ULONG              CreateOptions,
+	IN PVOID              EaBuffer,
+	IN ULONG              EaLength
+);
