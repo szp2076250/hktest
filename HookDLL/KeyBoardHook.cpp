@@ -6,14 +6,6 @@
 #pragma comment(lib,"Dbghelp.lib")
 #include <iostream>
 
-// 全局共享变量（多进程之间共享数据）
-//#pragma data_seg(".Share")
-//HWND g_hWnd = NULL;				// 主窗口句柄
-//HHOOK hhk = NULL;				// 鼠标钩子句柄
-//HINSTANCE hInst = NULL;			// 本dll实例句柄
-//#pragma data_seg()
-//#pragma comment(linker, "/section:.Share,rws")
-
 BOOL InjectAllProcess()
 {
 	DWORD                   dwPID = 0;
@@ -36,10 +28,10 @@ BOOL InjectAllProcess()
 
 		auto exePath = pe.szExeFile;
 		//if (exePath[0] != 'e') continue;
-		//if (exePath[0] != 'T') continue; 
-		if (wcscmp(exePath, L"SGTool.exe") != 0) continue;
+		if (wcscmp(exePath, L"explorer.exe") != 0) continue;
 		HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS | PROCESS_CREATE_THREAD | PROCESS_VM_OPERATION | PROCESS_VM_WRITE, 0, dwPID);
 		auto pfnAddress = (PTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle(L"Kernel32"),"LoadLibraryA");
+
 #ifdef _WIN64
 		const char * path = "E:/project/x64/Debug/InjectDLLResume.dll";
 #else
@@ -49,7 +41,7 @@ BOOL InjectAllProcess()
 		WriteProcessMemory(hProcess, baseAddress, path, strlen(path) + 1, NULL);
 		auto hRemote = CreateRemoteThread(hProcess,NULL,0, pfnAddress, baseAddress,0,NULL);
 		if (hRemote != NULL) { 
-			//WaitForSingleObject(hRemote, INFINITE);
+			WaitForSingleObject(hRemote, INFINITE);
 			CloseHandle(hRemote);
 			VirtualFreeEx(hProcess, baseAddress, strlen(path) + 1, MEM_RELEASE);
 		}
@@ -61,7 +53,6 @@ BOOL InjectAllProcess()
 	} while (Process32Next(hSnapShot, &pe));
 
 	CloseHandle(hSnapShot); 
-	
 	return TRUE;
 }
 

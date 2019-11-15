@@ -38,7 +38,6 @@ void Bonjour::InlineHook(PBYTE pOriginFunc, OUT PVOID* ppRealFunc, PBYTE pHookFu
 	Println::INFO(String::Format("Inline Hook for 32-bit Processes, 目标函数地址=%p", pOriginFunc));
 #endif
 
-
 	//拷贝原函数前14字节的代码粘贴至2GB范围内的虚拟内存，同时修正相对地址，同时在末尾添加跳转指令以跳转回原始函数
 	RealFunc realFunc;
 	realFunc.CopyTopOfOriginFunc(pOriginFunc, 拷贝的最小字节数_InlineHook);
