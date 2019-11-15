@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Windows.h>
 
 #ifdef SONGAPI
 #define SONGAPI _declspec(dllimport)
@@ -7,7 +7,7 @@
 #define SONGAPI _declspec(dllexport)
 #endif 
 
-extern"C" SONGAPI bool OnHook();
-extern"C" SONGAPI bool UnHook();
-extern"C" SONGAPI void Inject(HANDLE hd); 
+//extern"C" _declspec(dllexport) bool OnHook();
+//extern"C" _declspec(dllexport) bool UnHook();
+//extern"C" _declspec(dllexport) void Inject(HANDLE hd);
 extern"C" SONGAPI void Init();

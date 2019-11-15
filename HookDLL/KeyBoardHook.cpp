@@ -1,13 +1,11 @@
 #pragma once
-#include "stdafx.h"
-#include "wchar.h"
-#include "stdlib.h"
-#include "stdio.h"
+
 #include "KeyBoardHook.h"
 #include "dbghelp.h"
 #include "tlhelp32.h"
 #pragma comment(lib,"Dbghelp.lib")
- 
+#include <iostream>
+
 // 全局共享变量（多进程之间共享数据）
 //#pragma data_seg(".Share")
 //HWND g_hWnd = NULL;				// 主窗口句柄
@@ -33,14 +31,20 @@ BOOL InjectAllProcess()
 		dwPID = pe.th32ProcessID;
 
 		//
-		if (dwPID < 100)
+		if (dwPID < 100) 
 			continue;
 
 		auto exePath = pe.szExeFile;
-		if (exePath[0] != 'e') continue;
+		//if (exePath[0] != 'e') continue;
+		//if (exePath[0] != 'T') continue; 
+		if (wcscmp(exePath, L"SGTool.exe") != 0) continue;
 		HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS | PROCESS_CREATE_THREAD | PROCESS_VM_OPERATION | PROCESS_VM_WRITE, 0, dwPID);
 		auto pfnAddress = (PTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle(L"Kernel32"),"LoadLibraryA");
+#ifdef _WIN64
 		const char * path = "E:/project/x64/Debug/InjectDLLResume.dll";
+#else
+		const char * path = "E:/project/Debug/InjectDLLResume.dll";
+#endif
 		auto baseAddress = VirtualAllocEx(hProcess, 0,strlen(path)+1, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 		WriteProcessMemory(hProcess, baseAddress, path, strlen(path) + 1, NULL);
 		auto hRemote = CreateRemoteThread(hProcess,NULL,0, pfnAddress, baseAddress,0,NULL);
@@ -52,7 +56,7 @@ BOOL InjectAllProcess()
 		else {
 			auto error = GetLastError();
 			hProcess = NULL;
-		}
+		} 
 		//CloseHandle(hProcess);
 	} while (Process32Next(hSnapShot, &pe));
 
@@ -61,11 +65,10 @@ BOOL InjectAllProcess()
 	return TRUE;
 }
 
-
 void Init() {
 	InjectAllProcess();
-}
- 
+} 
+
 void ChangeTable(HMODULE module) {
 	HMODULE hModule = GetModuleHandle(NULL);
 	
