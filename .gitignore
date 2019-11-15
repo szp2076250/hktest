@@ -15,5 +15,3 @@ unsuccessfulbuild
 *.exp
 *.dll
 *.VC.*
-*.sln
-*.suo
